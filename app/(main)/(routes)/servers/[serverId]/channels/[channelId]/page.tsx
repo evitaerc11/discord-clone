@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { ChatHeader } from '@/components/chat/chat-header'
 import { ChatInput } from '@/components/chat/chat-input'
 import { ChannelType } from '@prisma/client'
+import ChatMessages from '@/components/chat/chat-messages'
 
 interface ChannelIdPageProps {
   params: {
@@ -46,7 +47,7 @@ const ChannelIdPage = async ({ params }: ChannelIdPageProps) => {
       />
       {channel.type === ChannelType.TEXT && (
         <>
-          {/* <ChatMessages
+          <ChatMessages
             member={member}
             name={channel.name}
             chatId={channel.id}
@@ -59,7 +60,7 @@ const ChannelIdPage = async ({ params }: ChannelIdPageProps) => {
             }}
             paramKey='channelId'
             paramValue={channel.id}
-          /> */}
+          />
           <ChatInput
             name={channel.name}
             type='channel'
