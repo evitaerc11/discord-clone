@@ -58,7 +58,18 @@ const ChatItem = ({
 }: ChatItemProps) => {
   const [isEditing, setIsEditing] = useState(false)
 
-  const { onOpen } = useModal();
+  const { onOpen } = useModal()
+
+  const router = useRouter()
+  const params = useParams()
+
+  const onMemberClick = () => {
+    if (member.id === currentMember.id) {
+      return
+    }
+
+    router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
+  }
 
   useEffect(() => {
     const handleKeyDown = (event: any) => {
@@ -79,21 +90,21 @@ const ChatItem = ({
     }
   })
 
-  const isLoading = form.formState.isSubmitting;
+  const isLoading = form.formState.isSubmitting
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = qs.stringifyUrl({
         url: `${socketUrl}/${id}`,
-        query: socketQuery,
-      });
+        query: socketQuery
+      })
 
-      await axios.patch(url, values);
+      await axios.patch(url, values)
 
-      form.reset();
-      setIsEditing(false);
+      form.reset()
+      setIsEditing(false)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
@@ -115,7 +126,7 @@ const ChatItem = ({
     <div className='relative group flex items-center hover:bg-black/5 p-4 transition w-full'>
       <div className='group flex gap-x-2 items-start w-full'>
         <div
-          // onClick={onMemberClick}
+          onClick={onMemberClick}
           className='cursor-pointer hover:drop-shadow-md transition'
         >
           <UserAvatar src={member.profile.imageUrl} />
@@ -124,7 +135,7 @@ const ChatItem = ({
           <div className='flex items-center gap-x-2'>
             <div className='flex items-center'>
               <p
-                // onClick={onMemberClick}
+                onClick={onMemberClick}
                 className='font-semibold text-sm hover:underline cursor-pointer'
               >
                 {member.profile.name}
